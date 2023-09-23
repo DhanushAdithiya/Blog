@@ -61,3 +61,5 @@ router.route("/fetch/:id").get(async (req, res) => {
     res.status(400).json("Error" + err);
   }
 });
+
+module.exports = router;

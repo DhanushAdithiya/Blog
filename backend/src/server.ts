@@ -10,13 +10,19 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("DB is connected"))
-  .catch((err) => console.log(err));
+  .catch((err: Error) => console.log(err));
 
 const loginRouter = require("../src/routes/loginRouter.ts");
 const blogsRouter = require("../src/routes/blogRouter.ts");
+const commentsRouter = require("../src/routes/commentsRouter.ts");
+const repliesRouter = require("../src/routes/repliesRouter.ts");
+const userActions = require("../src/routes/userRouter");
 
 app.use("/login", loginRouter);
 app.use("/blogs", blogsRouter);
+app.use("/comments", commentsRouter);
+app.use("/replies", repliesRouter);
+app.use("/user", userActions);
 
 app.listen(8000, () => {
   console.log("server listening at port 8000");

@@ -10,7 +10,7 @@ router.route("/add").post(async (req, res) => {
 
     await newUser.save();
   } catch (err) {
-    res.status(400).json("Error: ", err);
+    res.status(400).json("Error: " + err);
   }
 });
 

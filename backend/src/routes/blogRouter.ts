@@ -43,7 +43,7 @@ router.route("/delete/:id").post(async (req, res) => {
       res.status(404).json("Could not find Blog");
     }
   } catch (err) {
-    res.status(500).json("Error: ", err);
+    res.status(500).json("Error: " + err);
   }
 });
 
@@ -57,7 +57,7 @@ router.route("/user/:id").get(async (req, res) => {
       res.status(404).json("Couldn't find the user");
     }
   } catch (err) {
-    res.status(400).json("Error: ", err);
+    res.status(400).json("Error: " + err);
   }
 });
 
@@ -75,7 +75,7 @@ router.route("/update/:id").post(async (req, res) => {
       res.status(404).json("Could not find blog");
     }
   } catch (err) {
-    res.status(200).json("Error: ", err);
+    res.status(200).json("Error: " + err);
   }
 });
 

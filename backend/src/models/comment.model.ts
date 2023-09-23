@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Blog = require("../models/blog.model/ts");
+const Blog = require("../models/blog.model.ts");
 
 const Schema = mongoose.Schema;
 
