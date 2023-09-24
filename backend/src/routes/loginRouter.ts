@@ -8,7 +8,9 @@ router.route("/add").post(async (req, res) => {
     const { username, password, email } = req.body;
     const newUser = new User({ username, email, password });
 
-    await newUser.save();
+    if (await newUser.save()) {
+      res.status(200).json("Sucesfully Added");
+    }
   } catch (err) {
     res.status(400).json("Error: " + err);
   }

@@ -10,7 +10,8 @@ const blogsSchema = new Schema(
     tags: { type: String },
     authorName: { type: String, required: true },
     authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    likes: { type: Number }, //implement this later!
+    likes: { type: Number, default: 0 },
+    likedBy: { type: [String] },
   },
   {
     timestamps: true,
