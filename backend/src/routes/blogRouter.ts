@@ -1,4 +1,7 @@
 import { Router } from "express";
+import sendMail from "../functions/mailerFunction";
+const User = require("../models/user.model");
+
 let Blog = require("../models/blog.model");
 
 const router = Router();
@@ -12,6 +15,16 @@ router.route("/post").post(async (req, res) => {
     }
     let newBlog = new Blog({ title, content, authorName, authorId });
     await newBlog.save();
+
+    // Adding a module to send mails to the mailingList
+    const details = {
+      from: "userbotnotes@gmail.com",
+      // to:
+      subject: `New Blog By ${authorName}`,
+      text: `Check out this new blog by ${authorName} about ${title}`,
+    };
+    const author = await User.findById(authorId);
+
     res.status(200).json("Sucessfully added blog");
   } catch (err) {
     res.status(400).json("Error: " + err);
