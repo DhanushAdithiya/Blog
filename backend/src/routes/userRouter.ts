@@ -85,6 +85,7 @@ router.route("/mailinglist").post(async (req, res) => {
     const user = await User.findById(userId);
     user.mails = !user.mails;
     user.save();
+
     res.status(200).json("Succesfully enabled mails");
   } catch (err) {
     res.status(400).json("Error Occured: " + err);

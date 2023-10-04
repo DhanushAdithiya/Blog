@@ -17,13 +17,19 @@ router.route("/post").post(async (req, res) => {
     await newBlog.save();
 
     // Adding a module to send mails to the mailingList
-    const details = {
-      from: "userbotnotes@gmail.com",
-      // to:
-      subject: `New Blog By ${authorName}`,
-      text: `Check out this new blog by ${authorName} about ${title}`,
-    };
     const author = await User.findById(authorId);
+    const mailArr = await author.mailingList;
+    if (mailArr) {
+      for (let userMail of mailArr) {
+        const details = {
+          from: "userbotnotes@gmail.com",
+          to: `${userMail}`,
+          subject: `New Blog By ${authorName}`,
+          text: `Check out this new blog by ${authorName} about ${title}`,
+        };
+        sendMail(details);
+      }
+    }
 
     res.status(200).json("Sucessfully added blog");
   } catch (err) {
