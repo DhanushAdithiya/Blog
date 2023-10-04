@@ -60,15 +60,23 @@ router.route("/like/:id").post(async (req, res) => {
 router.route("/mail/:id").post(async (req, res) => {
   try {
     const blogAuthor = await User.findById(req.params.id);
+    const user = await User.findById(req.body.userId);
+
+    // ? This works but might take a long time incase there are a lot of emails in the list.
+
     if (blogAuthor.mailingList.includes(req.body.email)) {
       blogAuthor.mailingList = blogAuthor.mailingList.filter(
         (email: String) => email != req.body.email
       );
+      user.mailsSubscription = user.mailsSubscription.filter(
+        (id: String) => id != req.params.id
+      );
     } else {
       blogAuthor.mailingList = [...blogAuthor.mailingList, req.body.email];
+      user.mailsSubscription = [...user.mailsSubscription, req.params.id];
     }
 
-    if (await blogAuthor.save()) {
+    if ((await blogAuthor.save()) && user.save()) {
       res.status(200).json("Sucessfully added email");
     } else {
       res.status(400).json("Error Occured");
@@ -83,7 +91,19 @@ router.route("/mailinglist").post(async (req, res) => {
   const userId = req.body.userId;
   try {
     const user = await User.findById(userId);
+    const userMail = user.email;
     user.mails = !user.mails;
+    if (!user.mails) {
+      for (let author in user.mailsSubscription) {
+        const blogAuthor = User.findById(author);
+        blogAuthor.mailingList = blogAuthor.mailingList.filter(
+          (emails: String) => {
+            emails != userMail;
+          }
+        );
+        blogAuthor.save();
+      }
+    }
     user.save();
 
     res.status(200).json("Succesfully enabled mails");

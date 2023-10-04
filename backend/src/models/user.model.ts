@@ -14,6 +14,7 @@ const userSchema = new Schema(
     subscribers: { type: Number, default: 0 },
     mails: { type: Boolean, default: false },
     mailingList: { type: [String], unique: true },
+    mailsSubscription: { type: [String], unique: true },
   },
   {
     timestamps: true,
