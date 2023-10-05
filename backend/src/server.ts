@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+
 require("dotenv").config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 mongoose
@@ -18,8 +21,6 @@ const blogsRouter = require("../src/routes/blogRouter.ts");
 const commentsRouter = require("../src/routes/commentsRouter.ts");
 const repliesRouter = require("../src/routes/repliesRouter.ts");
 const userActions = require("../src/routes/userRouter");
-
-console.log(process.env.AUTH_EMAIL);
 
 app.use("/login", loginRouter);
 app.use("/blogs", blogsRouter);

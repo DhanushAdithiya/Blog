@@ -1,0 +1,66 @@
+@import url("../../styles/reset.css");
+@import url("../../styles/colors.css");
+
+.signup-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  text-align: center;
+  gap: 2em;
+}
+
+.signup-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 40%;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.btn-register {
+  margin-top: 1em;
+}
+
+.signup-form input[type="email"],
+input[type="password"],
+input[type="text"],
+input {
+  width: 100%;
+}
+
+img {
+  width: 50%;
+  object-fit: cover;
+}
+
+.signup-form input[type="email"],
+.signup-form input[type="text"],
+.signup-form input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.signup-form input[type="email"]:focus,
+.signup-form input[type="text"]:focus,
+.signup-form input[type="password"]:focus {
+  outline: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  form {
+    width: 60%;
+  }
+}
