@@ -1,4 +1,5 @@
 import { Router } from "express";
+const JWT = require("jsonwebtoken");
 let User = require("../models/user.model.ts");
 
 const router = Router();
@@ -21,7 +22,14 @@ router.route("/").post(async (req, res) => {
   const user = await User.findOne({ username, password });
 
   if (user) {
-    res.status(200).json("User Found");
+    const encryptedCred = JWT.sign(
+      {
+        username: user.username,
+        id: user._id,
+      },
+      process.env.JSON_KEY
+    );
+    res.status(200).json({ encryptedCred });
   } else {
     res.status(404).json("User Not Found");
   }

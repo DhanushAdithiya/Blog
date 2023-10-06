@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import "./login.css";
+import Message from "../../components/errors/error";
 
 function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function loginUser(e: any) {
     e.preventDefault();
 
     setError(false);
+    setSuccess(false);
 
     const response = await fetch("http://127.0.0.1:8000/login", {
       method: "POST",
@@ -25,9 +28,13 @@ function App() {
     const data = await response.json();
 
     if (response.status === 200) {
-      console.log("confirm");
+      setError(false);
+      setSuccess(true);
       console.log(data);
+      localStorage.setItem("loginInfo", data.encryptedCred);
+      window.location.href = "/home";
     } else {
+      setError(true);
       console.log("errpr");
     }
   }
@@ -61,6 +68,20 @@ function App() {
                 type="password"
                 placeholder="Password"
               />
+              {error && (
+                <Message
+                  color="red"
+                  message={"Credentials do not belong to an account"}
+                />
+              )}
+              {success && (
+                <Message
+                  color="green"
+                  message={
+                    "Login Sucessfull. please wait while we redirect you"
+                  }
+                />
+              )}
 
               <input className="btn-submit" type="submit" value="Login" />
             </form>
