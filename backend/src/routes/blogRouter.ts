@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import sendMail from "../functions/mailerFunction";
+import sendMail from "../functions/mailerFunction";
 const User = require("../models/user.model");
 
 let Blog = require("../models/blog.model");
@@ -27,7 +27,7 @@ router.route("/post").post(async (req, res) => {
           subject: `New Blog By ${authorName}`,
           text: `Check out this new blog by ${authorName} about ${title}`,
         };
-        // sendMail(details);
+        sendMail(details);
       }
     }
 

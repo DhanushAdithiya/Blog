@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 // import "home.css";
 import Navbar from "../../components/navbar/navbar";
@@ -12,20 +12,30 @@ interface DecodedData {
 function App() {
   const [username, setUsername] = useState("");
   const [id, setId] = useState("");
-
   const navigate = useNavigate();
+
+  const signOut = useCallback(() => {
+    localStorage.removeItem("loginInfo");
+    navigate("/");
+  }, [navigate]);
+
   useEffect(() => {
     const loginInfo = localStorage.getItem("loginInfo");
     if (!loginInfo) {
-      localStorage.removeItem("loginInfo");
-      navigate("/");
+      signOut();
     } else {
       const decoded: DecodedData = jwtDecode(loginInfo);
-      setUsername(() => decoded.username);
-      setId(() => decoded.id);
+      setUsername(decoded.username);
+      setId(decoded.id);
     }
-  }, [navigate]);
-  return <h1>Hello {username}</h1>;
+  }, [navigate, signOut]);
+
+  return (
+    <>
+      <h1>Hello {username}</h1>
+      <button onClick={signOut}>Signout</button>
+    </>
+  );
 }
 
 export default App;

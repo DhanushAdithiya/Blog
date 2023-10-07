@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
 import Message from "../../components/errors/error";
 
@@ -7,6 +7,8 @@ function App() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Get data if already present in local storage to log in the user automatically
 
   async function loginUser(e: any) {
     e.preventDefault();
