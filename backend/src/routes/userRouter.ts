@@ -1,5 +1,3 @@
-import { createSocket } from "dgram";
-import { resolveSoa } from "dns";
 import { Router } from "express";
 import sendMail from "../functions/mailerFunction";
 const User = require("../models/user.model.ts");
@@ -117,16 +115,15 @@ router.route("/forgot-password").post(async (req, res) => {
   const username = req.body.username;
   try {
     const user = await User.findOne({ username: username }).exec();
-    console.log(user.email);
+
     if (user) {
       const userMail = user.email;
-      console.log(user.username);
       const userId = user._id;
       const details = {
         from: "userbotnotes@gmail.com",
         to: `${userMail}`,
         subject: `Password Reset Request`,
-        text: `You have requested for a password reset, click this link to reset your password "http://127.0.0.1:8000/user/reset/${userId}", if this was not you ignore this mail. `,
+        text: `You have requested for a password reset, click this link to reset your password "http://127.0.0.1:3000/reset/${userId}", if this was not you ignore this mail. `,
       };
       sendMail(details);
       // ! ERROR HANDLING IS STILL PENDING HERE

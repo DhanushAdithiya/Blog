@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./login.css";
+import { useNavigate } from "react-router-dom";
 import Message from "../../components/errors/error";
+import { toEditorSettings } from "typescript";
+import jwtDecode from "jwt-decode";
+
+interface decodedData {
+  username: string;
+  password: string;
+}
 
 function App() {
   const [username, setUsername] = useState("");
@@ -8,38 +16,51 @@ function App() {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Get data if already present in local storage to log in the user automatically
+  const navigate = useNavigate();
 
-  async function loginUser(e: any) {
-    e.preventDefault();
+  const loginUser = useCallback(
+    async (e?: React.FormEvent<EventTarget>) => {
+      e?.preventDefault(); //Optional Chaining incase the the funciton is called from a FormEvent
 
-    setError(false);
-    setSuccess(false);
-
-    const response = await fetch("http://127.0.0.1:8000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (response.status === 200) {
       setError(false);
-      setSuccess(true);
-      console.log(data);
-      localStorage.setItem("loginInfo", data.encryptedCred);
-      window.location.href = "/home";
+      setSuccess(false);
+
+      const response = await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        setError(false);
+        setSuccess(true);
+        localStorage.setItem("loginInfo", data.encryptedCred);
+        window.location.href = "/home";
+      } else {
+        setError(true);
+      }
+    },
+    [password, username]
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("loginInfo");
+    if (token) {
+      const decoded: decodedData = jwtDecode(token);
+      setPassword(decoded.password);
+      setUsername(decoded.username);
+      loginUser();
     } else {
-      setError(true);
-      console.log("errpr");
+      localStorage.removeItem("loginInfo");
     }
-  }
+  }, [navigate, loginUser]);
 
   return (
     <>
@@ -70,6 +91,14 @@ function App() {
                 type="password"
                 placeholder="Password"
               />
+              <div>
+                {/* TODO: ADD THIS FUNCTIONALITY */}
+                <a href="/forgot-password">Forgot Password?</a>
+                <label htmlFor="rememberMeCheckbox">
+                  <input type="checkbox" id="rememberMeCheckbox" />
+                  Remember me
+                </label>
+              </div>
               {error && (
                 <Message
                   color="red"

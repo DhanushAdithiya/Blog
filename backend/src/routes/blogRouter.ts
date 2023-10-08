@@ -43,7 +43,6 @@ router.route("/:id").get(async (req, res) => {
     const blog = await Blog.findById(req.params.id);
     if (blog) {
       res.status(200).json(blog);
-      console.log(blog.author);
     } else {
       res.status(404).json("Blog not found");
     }

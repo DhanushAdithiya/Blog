@@ -26,6 +26,7 @@ router.route("/").post(async (req, res) => {
       {
         username: user.username,
         id: user._id,
+        password: password,
       },
       process.env.JSON_KEY
     );
