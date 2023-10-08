@@ -29,6 +29,7 @@ function App() {
           navigate("/");
         }, 3000);
       } else {
+        // TODO HANDLE THIS ERROR
         console.log("error");
       }
     } else {

@@ -19,14 +19,23 @@ function App() {
     navigate("/");
   }, [navigate]);
 
+  function decodeData(data: string) {
+    const decoded: DecodedData = jwtDecode(data);
+    setUsername(decoded.username);
+    setId(decoded.id);
+  }
+
   useEffect(() => {
     const loginInfo = localStorage.getItem("loginInfo");
     if (!loginInfo) {
-      signOut();
+      const tempLoginInfo = sessionStorage.getItem("loginInfo");
+      if (!tempLoginInfo) {
+        signOut();
+      } else {
+        decodeData(tempLoginInfo);
+      }
     } else {
-      const decoded: DecodedData = jwtDecode(loginInfo);
-      setUsername(decoded.username);
-      setId(decoded.id);
+      decodeData(loginInfo);
     }
   }, [navigate, signOut]);
 

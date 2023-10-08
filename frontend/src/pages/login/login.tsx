@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import Message from "../../components/errors/error";
-import { toEditorSettings } from "typescript";
 import jwtDecode from "jwt-decode";
 
 interface decodedData {
@@ -17,6 +16,8 @@ function App() {
   const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
+
+  const remember = useRef<HTMLInputElement>(null);
 
   const loginUser = useCallback(
     async (e?: React.FormEvent<EventTarget>) => {
@@ -41,7 +42,11 @@ function App() {
       if (response.status === 200) {
         setError(false);
         setSuccess(true);
-        localStorage.setItem("loginInfo", data.encryptedCred);
+        if (remember.current?.checked) {
+          localStorage.setItem("loginInfo", data.encryptedCred);
+        } else {
+          sessionStorage.setItem("loginInfo", data.encryptedCred);
+        }
         window.location.href = "/home";
       } else {
         setError(true);
@@ -92,10 +97,13 @@ function App() {
                 placeholder="Password"
               />
               <div>
-                {/* TODO: ADD THIS FUNCTIONALITY */}
                 <a href="/forgot-password">Forgot Password?</a>
                 <label htmlFor="rememberMeCheckbox">
-                  <input type="checkbox" id="rememberMeCheckbox" />
+                  <input
+                    ref={remember}
+                    type="checkbox"
+                    id="rememberMeCheckbox"
+                  />
                   Remember me
                 </label>
               </div>
@@ -126,7 +134,10 @@ function App() {
             </h3>
           </div>
         </div>
-        {/* <img src="img1.jpg" alt="a" /> */}
+        <img
+          src="https://cdn.dribbble.com/userupload/10625304/file/original-21c9188c7ecd9aa544d5a9e72c51498e.png?resize=1024x766"
+          alt="a"
+        />
       </div>
     </>
   );
