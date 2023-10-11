@@ -111,6 +111,20 @@ router.route("/mailinglist").post(async (req, res) => {
   }
 });
 
+router.route("/:id").get(async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const user = await User.findById(userId).exec();
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json("Could not find the user");
+    }
+  } catch (err) {
+    res.status(400).json("Error Occured: " + err);
+  }
+});
+
 router.route("/forgot-password").post(async (req, res) => {
   const username = req.body.username;
   try {

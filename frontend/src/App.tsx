@@ -5,6 +5,7 @@ import SignUp from "./pages/signUp/signup";
 import Home from "./pages/home/home";
 import ForgotPassword from "./pages/forgotPassword/forgotPassword";
 import ResetPassword from "./pages/forgotPassword/resetPassword";
+import BlogPost from "./pages/blogPost/blogPost";
 
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" Component={Home} />
         <Route path="/forgot-password" Component={ForgotPassword} />
         <Route path="/reset/:id" Component={ResetPassword} />
+        <Route path="/blog/post/:blogId" Component={BlogPost} />
       </Routes>
     </BrowserRouter>
   );

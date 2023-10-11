@@ -70,7 +70,11 @@ function App() {
           </h3>
         </div>
       </div>
-      {/*  <img src="placeholder " alt="" /> */}
+
+      <img
+        src="https://cdn.dribbble.com/userupload/10576072/file/original-25d48a1689260dc29acf1d6355c2409d.gif"
+        alt=""
+      />
     </div>
   );
 }
