@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
-    profilePicture: { type: String },
+    profilePicture: {
+      type: String,
+      default:
+        "https://i.pinimg.com/originals/a9/fc/ea/a9fceab8da2bedb462f34e73afa7ba51.jpg",
+    },
     biography: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -15,6 +19,8 @@ const userSchema = new Schema(
     mails: { type: Boolean, default: false },
     mailingList: { type: [String], unique: true },
     mailsSubscription: { type: [String], unique: true },
+    instagram: { type: String },
+    linkedin: { type: String },
   },
   {
     timestamps: true,

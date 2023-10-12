@@ -116,7 +116,12 @@ router.route("/:id").get(async (req, res) => {
   try {
     const user = await User.findById(userId).exec();
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json({
+        username: user.username,
+        profilePicture: user.profilePicture,
+        linkedin: user.linkedin,
+        instagram: user.instagram,
+      });
     } else {
       res.status(404).json("Could not find the user");
     }
