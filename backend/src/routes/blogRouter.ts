@@ -9,11 +9,18 @@ const router = Router();
 //Routers for CRUD On Blogs
 router.route("/post").post(async (req, res) => {
   try {
-    const { title, content, authorId, authorName } = req.body;
+    const { title, content, authorId, authorName, picture, summary } = req.body;
     if (!authorId) {
       res.status(400).json("AuthorId is Missing");
     }
-    let newBlog = new Blog({ title, content, authorName, authorId });
+    let newBlog = new Blog({
+      title,
+      content,
+      authorName,
+      authorId,
+      picture,
+      summary,
+    });
     await newBlog.save();
 
     // Adding a module to send mails to the mailingList
@@ -49,6 +56,8 @@ router.route("/:id").get(async (req, res) => {
         authorId: blog.authorId,
         likes: blog.likes,
         time: blog.updatedAt,
+        summary: blog.summary,
+        picture: blog.picture,
       });
     } else {
       res.status(404).json("Blog not found");
