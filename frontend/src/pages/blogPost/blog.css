@@ -50,10 +50,12 @@
 
 .blog-post-content p {
   width: 50%;
-  font-size: 1vw;
+  font-size: clamp(16px, 4vw, 22px);
 }
 
 .blog-post-content p img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   margin: 2em auto;
 }
 
